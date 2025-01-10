@@ -9,22 +9,11 @@ export const errorHandler = (
   next: NextFunction
 ) => {
   if (err instanceof RequestalidationError) {
-    const formattedErrors = err.errors.map(error => {
-      if (error.type === "field") {
-        return {
-          message: error.msg,
-          field: error.path,
-          location: error.location,
-        };
-      }
-      return { message: error.msg, field: null };
-    });
-
-    return res.status(400).send({ errors: formattedErrors });
+    return res.status(err.statusCode).send({ errors: err.serializeErrors() });
   }
 
   if (err instanceof DatabaseConnectionError) {
-    return res.status(500).send({ errors: [{ message: err.reason }] });
+    return res.status(err.statusCode).send({ errors: err.serializeErrors() });
   }
 
   res.status(400).send({
