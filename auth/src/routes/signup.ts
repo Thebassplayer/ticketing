@@ -5,6 +5,8 @@ import { User } from "../models/user";
 import { BadRequestError } from "../errors/badRequestError";
 import jwt from "jsonwebtoken";
 
+const jwtSecret = process.env.JWT_KEY!;
+
 const router = express.Router();
 
 router.post(
@@ -37,7 +39,7 @@ router.post(
           id: user.id,
           email: user.email,
         },
-        "asdf"
+        jwtSecret
       );
       req.session = {
         jwt: userJwt,
