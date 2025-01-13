@@ -3,6 +3,7 @@ dotenv.config({ path: ".env.test" });
 
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
+import request from "supertest";
 import { app } from "../app";
 
 let mongo: MongoMemoryServer;
@@ -39,3 +40,20 @@ afterAll(async () => {
     await mongo.stop();
   }
 });
+
+(global as any).getAuthCookie = async () => {
+  const email = "test@email.com";
+  const password = "password";
+
+  const response = await request(app)
+    .post("/api/users/signup")
+    .send({
+      email,
+      password,
+    })
+    .expect(201);
+
+  const cookie = response.get("Set-Cookie");
+
+  return cookie;
+};
