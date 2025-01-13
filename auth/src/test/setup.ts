@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config({ path: ".env.test" });
+
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import { app } from "../app";
@@ -5,7 +8,13 @@ import { app } from "../app";
 let mongo: MongoMemoryServer;
 
 beforeAll(async () => {
-  mongo = new MongoMemoryServer();
+  jest.setTimeout(30000);
+
+  if (!process.env.JWT_KEY) {
+    process.env.JWT_KEY = "fallback_test_key";
+  }
+
+  mongo = await MongoMemoryServer.create();
   const mongoUri = mongo.getUri();
 
   await mongoose.connect(mongoUri);
@@ -22,6 +31,11 @@ beforeEach(async () => {
 });
 
 afterAll(async () => {
-  await mongoose.connection.close();
-  await mongo.stop();
+  if (mongoose.connection.readyState) {
+    await mongoose.connection.close();
+  }
+
+  if (mongo) {
+    await mongo.stop();
+  }
 });
