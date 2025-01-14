@@ -1,6 +1,5 @@
+import { currentUser } from "@rldtickets/common";
 import express, { Request, Response } from "express";
-import { requireAuth } from "../middlewares/requireAuth";
-import { currentUser } from "../middlewares/currentUser";
 
 const router = express.Router();
 

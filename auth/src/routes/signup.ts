@@ -1,9 +1,8 @@
 import express, { NextFunction, Request, Response } from "express";
 import { body } from "express-validator";
 import { User } from "../models/user";
-import { BadRequestError } from "../errors/badRequestError";
 import jwt from "jsonwebtoken";
-import { validateRequest } from "../middlewares/validateRequest";
+import { BadRequestError, validateRequest } from "@rldtickets/common";
 
 const jwtSecret = process.env.JWT_KEY!;
 

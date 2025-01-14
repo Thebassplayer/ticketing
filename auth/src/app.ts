@@ -6,8 +6,7 @@ import { signinRouter } from "./routes/signin";
 import { currentUserRouter } from "./routes/currentUser";
 import { signoutRouter } from "./routes/signout";
 import { signupRouter } from "./routes/signup";
-import { errorHandler } from "./middlewares/errorHandler";
-import { NotFoundError } from "./errors/notFoundError";
+import { errorHandler, NotFoundError } from "@rldtickets/common";
 
 const app = express();
 app.set("trust proxy", true);
