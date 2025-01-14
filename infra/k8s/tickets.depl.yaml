@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth-depl
+  name: tickets-depl
 spec:
   replicas: 1
   selector:
@@ -21,6 +21,8 @@ spec:
                 secretKeyRef:
                   name: jwt-secret
                   key: JWT_KEY
+            - name: MONGO_URI
+              value: "mongodb://tickets-mongo-srv:27017/tickets"
 ---
 apiVersion: v1
 kind: Service
