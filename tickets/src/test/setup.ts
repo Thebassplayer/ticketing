@@ -5,14 +5,6 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 
-declare global {
-  namespace NodeJS {
-    interface Global {
-      getAuthCookie(): string[];
-    }
-  }
-}
-
 let mongo: MongoMemoryServer;
 
 beforeAll(async () => {
