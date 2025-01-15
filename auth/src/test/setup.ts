@@ -12,7 +12,7 @@ beforeAll(async () => {
   jest.setTimeout(30000);
 
   if (!process.env.JWT_KEY) {
-    process.env.JWT_KEY = "fallback_test_key";
+    process.env.JWT_KEY = "testjwtkey";
   }
 
   mongo = await MongoMemoryServer.create();
