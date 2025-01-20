@@ -1,6 +1,4 @@
 import express, { Request, Response } from "express";
-import { requireAuth, validateRequest } from "@rldtickets/common";
-import { body } from "express-validator";
 import { Ticket } from "../models/ticket";
 import { NotFoundError } from "@rldtickets/common";
 
