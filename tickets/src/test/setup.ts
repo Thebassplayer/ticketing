@@ -40,10 +40,10 @@ afterAll(async () => {
   }
 });
 
-export const getAuthCookie = () => {
+export const getAuthCookie = (id: string = "12345") => {
   // Build a JWT payload. { id, email }
   const payload = {
-    id: "12345",
+    id,
     email: "test@mail.com",
   };
   // Create the JWT!
