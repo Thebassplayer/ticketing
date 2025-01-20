@@ -13,16 +13,11 @@ describe("POST /api/tickets", () => {
   it("returns a status other than 401 if the user is signed in", async () => {
     const cookie = getAuthCookie();
 
-    console.log("Cookie:", cookie);
-
     const response = await request(app)
       .post("/api/tickets")
       .set("Cookie", cookie)
       .send({});
 
-    console.log(response.status);
-    //print cookie
-    console.log("Response Cookie:", response.get("Set-Cookie"));
     expect(response.status).not.toEqual(401);
   });
   it("return an error if an invalid title is provided", async () => {});

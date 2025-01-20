@@ -16,12 +16,6 @@ app.use(
 );
 
 app.use(currentUser);
-app.use((req, res, next) => {
-  console.log("Request Session", req.session);
-  console.log("Request received", req.url);
-  console.log(req.currentUser);
-  next();
-});
 
 app.use(createTicketRouter);
 

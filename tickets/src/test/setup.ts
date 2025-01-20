@@ -55,9 +55,7 @@ export const getAuthCookie = () => {
   // Take JSON and encode it as base64
   const base64 = Buffer.from(sessionJSON).toString("base64");
   // return a string thats the cookie with the encoded data
-  const cookie = [`express:sess=${base64}`];
-
-  console.log("Generated Cookie", cookie);
+  const cookie = [`session=${base64}`];
 
   return cookie;
 };
