@@ -44,7 +44,7 @@ describe("POST /api/tickets", () => {
       .post("/api/tickets")
       .set("Cookie", getAuthCookie())
       .send({
-        title: "title",
+        title: "concert",
         price: -10,
       })
       .expect(400);
@@ -53,7 +53,7 @@ describe("POST /api/tickets", () => {
       .post("/api/tickets")
       .set("Cookie", getAuthCookie())
       .send({
-        title: "title",
+        title: "concert",
       })
       .expect(400);
   });
@@ -62,7 +62,7 @@ describe("POST /api/tickets", () => {
     let tickets = await Ticket.find({});
     expect(tickets.length).toEqual(0);
 
-    const title = "title";
+    const title = "concert";
     const price = 20;
 
     await request(app)
