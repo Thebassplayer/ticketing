@@ -10,8 +10,15 @@ const start = async () => {
     throw new Error("MONGO_URI must be defined");
   }
   try {
-    await natsWrapper.connect("ticketing", "abc", "http://nats-srv:4222");
-    await mongoose.connect(process.env.MONGO_URI!, {});
+    await natsWrapper.connect("ticketing", "abcde", "http://nats-srv:4222");
+    natsWrapper.client.on("close", () => {
+      console.log("NATS connection closed");
+      process.exit();
+    });
+
+    process.on("SIGINT", () => natsWrapper.client.close());
+    process.on("SIGTERM", () => natsWrapper.client.close());
+    await mongoose.connect(process.env.MONGO_URI!);
     console.log("Connected to MongoDB");
   } catch (err) {
     console.error(err);
