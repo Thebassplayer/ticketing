@@ -2,6 +2,7 @@ import request from "supertest";
 import { app } from "../../app";
 import { getAuthCookie } from "../../test/setup";
 import mongoose from "mongoose";
+import { natsWrapper } from "../../natsWrapper";
 
 describe("PUT /api/tickets/:id", () => {
   const id = new mongoose.Types.ObjectId().toHexString();
@@ -103,5 +104,31 @@ describe("PUT /api/tickets/:id", () => {
 
     expect(ticketResponse.body.title).toEqual(newTitle);
     expect(ticketResponse.body.price).toEqual(newPrice);
+  });
+
+  it("publishes an event", async () => {
+    const cookie = getAuthCookie();
+
+    const response = await request(app)
+      .post("/api/tickets")
+      .set("Cookie", cookie)
+      .send({
+        title: "concert",
+        price: 20,
+      });
+
+    const newTitle = "new title";
+    const newPrice = 1000;
+
+    await request(app)
+      .put(`/api/tickets/${response.body.id}`)
+      .set("Cookie", cookie)
+      .send({
+        title: newTitle,
+        price: newPrice,
+      })
+      .expect(200);
+
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
   });
 });
