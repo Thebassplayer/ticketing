@@ -1,9 +1,26 @@
 import express, { Request, Response } from "express";
+import { NotAuthorizedError, requireAuth } from "@rldtickets/common";
+import { Order } from "../models/order";
+import { NotFoundError } from "@rldtickets/common";
 
 const router = express.Router();
 
-router.get("/api/orders/:orderId", async (req: Request, res: Response) => {
-  res.send({});
-});
+router.get(
+  "/api/orders/:orderId",
+  requireAuth,
+  async (req: Request, res: Response) => {
+    const order = await Order.findById(req.params.orderId).populate("ticket");
+
+    if (!order) {
+      throw new NotFoundError();
+    }
+
+    if (order.userId !== req.currentUser!.id) {
+      throw new NotAuthorizedError();
+    }
+
+    res.send(order);
+  }
+);
 
 export { router as showOrdersRouter };
