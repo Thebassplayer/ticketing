@@ -1,7 +1,10 @@
 import express, { Request, Response } from "express";
-import { NotAuthorizedError, requireAuth } from "@rldtickets/common";
+import {
+  NotAuthorizedError,
+  requireAuth,
+  NotFoundError,
+} from "@rldtickets/common";
 import { Order } from "../models/order";
-import { NotFoundError } from "@rldtickets/common";
 
 const router = express.Router();
 

@@ -3,12 +3,11 @@ import {
   requireAuth,
   validateRequest,
   NotFoundError,
-  OrderStatus,
   BadRequestError,
 } from "@rldtickets/common";
 import { body } from "express-validator";
 import mongoose from "mongoose";
-import { Order } from "../models/order";
+import { OrderStatus, Order } from "../models/order";
 import { Ticket } from "../models/ticket";
 
 const router = express.Router();
