@@ -5,6 +5,7 @@ import { Order } from "../../models/order";
 import { OrderStatus } from "@rldtickets/common";
 import { Ticket } from "../../models/ticket";
 import { getAuthCookie } from "../../test/setup";
+import { natsWrapper } from "../../natsWrapper";
 
 describe("DELETE /api/orders/:orderId", () => {
   it("returns a 404 if the order is not found", async () => {
@@ -65,5 +66,28 @@ describe("DELETE /api/orders/:orderId", () => {
     expect(updatedOrder!.status).toEqual(OrderStatus.Cancelled);
   });
 
-  it.todo("emits an order cancelled event");
+  it("emits an order cancelled event", async () => {
+    const ticket = Ticket.build({
+      title: "concert",
+      price: 20,
+    });
+    await ticket.save();
+
+    const userId = new mongoose.Types.ObjectId().toHexString();
+    const order = Order.build({
+      ticket,
+      userId,
+      status: OrderStatus.Created,
+      expiresAt: new Date(),
+    });
+    await order.save();
+
+    await request(app)
+      .delete(`/api/orders/${order.id}`)
+      .set("Cookie", getAuthCookie(userId))
+      .send()
+      .expect(204);
+
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
+  });
 });

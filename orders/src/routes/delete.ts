@@ -5,6 +5,8 @@ import {
   NotFoundError,
 } from "@rldtickets/common";
 import { Order, OrderStatus } from "../models/order";
+import { OrderCancelledPublisher } from "../events/publisher/orderCancelledPublisher";
+import { natsWrapper } from "../natsWrapper";
 
 const router = express.Router();
 
@@ -26,6 +28,14 @@ router.delete(
 
     order.status = OrderStatus.Cancelled;
     await order.save();
+
+    // Publish an event saying that the order was cancelled
+    new OrderCancelledPublisher(natsWrapper.client).publish({
+      id: order.id,
+      ticket: {
+        id: order.ticket.id,
+      },
+    });
 
     res.status(204).send(order);
   }
