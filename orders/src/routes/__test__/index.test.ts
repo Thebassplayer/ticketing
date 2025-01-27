@@ -1,8 +1,6 @@
 import request from "supertest";
 import { app } from "../../app";
-import { Order } from "../../models/order";
 import { Ticket } from "../../models/ticket";
-import mongoose from "mongoose";
 import { getAuthCookie } from "../../test/setup";
 
 describe("GET /api/orders", () => {
