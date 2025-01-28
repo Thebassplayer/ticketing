@@ -2,23 +2,27 @@ import request from "supertest";
 import { app } from "../../app";
 import { Ticket } from "../../models/ticket";
 import { getAuthCookie } from "../../test/setup";
+import mongoose from "mongoose";
 
 describe("GET /api/orders", () => {
   it("fetches orders for a particular user", async () => {
     // Create three tickets
     const ticketOne = Ticket.build({
+      id: new mongoose.Types.ObjectId().toHexString(),
       title: "concert",
       price: 20,
     });
     await ticketOne.save();
 
     const ticketTwo = Ticket.build({
+      id: new mongoose.Types.ObjectId().toHexString(),
       title: "movie",
       price: 10,
     });
     await ticketTwo.save();
 
     const ticketThree = Ticket.build({
+      id: new mongoose.Types.ObjectId().toHexString(),
       title: "play",
       price: 15,
     });

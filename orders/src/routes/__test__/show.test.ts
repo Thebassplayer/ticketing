@@ -17,6 +17,7 @@ describe("GET /api/orders/:orderId", () => {
 
   it("returns a 401 if the user is not authorized", async () => {
     const ticket = Ticket.build({
+      id: new mongoose.Types.ObjectId().toHexString(),
       title: "concert",
       price: 20,
     });
@@ -40,6 +41,7 @@ describe("GET /api/orders/:orderId", () => {
 
   it("returns the order if the user is authorized", async () => {
     const ticket = Ticket.build({
+      id: new mongoose.Types.ObjectId().toHexString(),
       title: "concert",
       price: 20,
     });
