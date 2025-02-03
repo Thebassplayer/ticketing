@@ -27,6 +27,14 @@
     {
       "name": "tickets",
       "path": "tickets"
+    },
+    {
+      "name": "expiration",
+      "path": "expiration"
+    },
+    {
+      "name": "infra",
+      "path": "infra"
     }
   ],
   "settings": {
