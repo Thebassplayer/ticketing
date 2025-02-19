@@ -35,6 +35,10 @@
     {
       "name": "infra",
       "path": "infra"
+    },
+    {
+      "name": "payments",
+      "path": "payments"
     }
   ],
   "settings": {
