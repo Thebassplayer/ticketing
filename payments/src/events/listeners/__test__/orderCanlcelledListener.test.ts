@@ -3,7 +3,7 @@ import { OrderCancelledEvent, OrderStatus } from "@rldtickets/common";
 import mongoose from "mongoose";
 import { Message } from "node-nats-streaming";
 import { Order } from "../../../models/order";
-import { OrderCanlcelledListener } from "../orderCancelledListener";
+import { OrderCanlcelledListener } from "../OrderCanlcelledListener";
 
 const setup = async () => {
   const listener = new OrderCanlcelledListener(natsWrapper.client);
